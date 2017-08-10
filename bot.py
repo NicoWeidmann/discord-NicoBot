@@ -14,7 +14,7 @@ class Bot:
 
         @self._client.event
         async def on_ready():
-            print('Nice. Sucessfully logged in as {0.user.name} with ID {0.user.id}.'.format(self._client))
+            self._logger.info('Nice. Sucessfully logged in as {0.user.name} with ID {0.user.id}.'.format(self._client))
 
         @self._client.event
         async def on_message(message):
@@ -76,9 +76,7 @@ class Voting:
         self.uid = uid
         self.question = question
         self.answers = answers
-        print(answers)
         self.votes = dict()
-
         self.active = True
 
     def addVote(self, voter, answer):
