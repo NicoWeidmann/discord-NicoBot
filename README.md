@@ -24,4 +24,4 @@ after this, simply start the bot:
 python3 run.py <YOUR BOT TOKEN>
 ```
 
-You can add additional functionality to the bot by adding more cogs to the bot. The best place to do this is the `run.py` file.
+You can add additional functionality by adding more cogs to the bot. The best place to do this is the `run.py` file.
