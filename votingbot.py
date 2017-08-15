@@ -1,5 +1,6 @@
 import logging
 from discord.ext import commands
+import discord
 import asyncio
 
 logger = logging.getLogger("Voting_Cog")
@@ -16,8 +17,13 @@ class Voting:
     @asyncio.coroutine
     def createVote(self, ctx, uid, question, *answers):
         """
-        Create a new vote with the given unique id, question and
-        possible answers. You have to provide at least 2 answers.
+        Create a new vote.
+
+        uid      - the unique id of the voting
+        question - the question you want to vote on
+        answers  - the possible answers to the question
+
+        Make sure to put the question and each answer in quotes if they contain spaces!
         """
 
         if not 0 <= len(uid) <= 4:
@@ -38,8 +44,12 @@ class Voting:
     @asyncio.coroutine
     def vote(self, ctx, uid, vote):
         """
-        Vote on the voting with the given unique id. Pass the number
-        of the answer you want to vote for as the last parameter.
+        Vote on on a voting.
+
+        uid  - the unique id of the voting
+        vote - the number of the answer you want to vote for
+
+        You can only vote once per voting.
         """
 
         if (uid, ctx.message.server.id) not in self._votings:
@@ -60,8 +70,12 @@ class Voting:
     @asyncio.coroutine
     def evaluate(self, ctx, uid):
         """
-        Evaluates a voting and disables it. Only the owner of the voting
-        can evaluate it.
+        Evaluates a voting.
+
+        uid - the unique id of the voting
+
+        Only the owner of the voting can evaluate it.
+        Once the voting is evaluated, no additional votes will be counted.
         """
 
         if (uid, ctx.message.server.id) not in self._votings:
@@ -79,7 +93,7 @@ class Voting:
             yield from asyncio.sleep(300, loop=self.bot.loop)
             if (uid, ctx.message.server.id) in self._votings and not voting.active:
                 del self._votings[(uid, ctx.message.server.id)]
-                self._logger.info("Deleted voting with ID {0} on server with ID {1}".format(uid, ctx.message.server.id))
+                self._logger.info("Deleted Voting with ID {0} on server with ID {1}".format(uid, ctx.message.server.id))
 
         # schedule deletion of this voting
         discord.compat.create_task(deleteVote(), loop=self.bot.loop)
@@ -90,7 +104,8 @@ class Voting:
     @asyncio.coroutine
     def showVote(self, ctx, uid):
         """
-        Shows information on a currently running vote.
+        Shows information on a voting.
+        This command prints a summary of the voting with the possible answers.
         """
 
         if (uid, ctx.message.server.id) not in self._votings:
@@ -152,8 +167,11 @@ class Voting_Model:
         """
 
         if not self.active:
-            return "This vote has already been evaluated."
+            raise VotingException("this vote has already been evaluated.")
 
+        return self.buildEvaluationMsg()
+
+    def buildEvaluationMsg(self):
         msg = "Hello there. Here is your evaluation on the vote:\n\n[{0}] **{1}**\n".format(self.uid, self.question)
 
         totalVotes = len(self.votes)
@@ -171,7 +189,7 @@ class Voting_Model:
     def printVote(self, ctx):
 
         if not self.active:
-            return "This vote has already been evaluated."
+            raise VotingException("this vote has already been evaluated:\n\n" + self.buildEvaluationMsg())
 
         msg = "{0.owner.name} created the following voting:\n[{0.uid}] **{0.question}**".format(self)
 
