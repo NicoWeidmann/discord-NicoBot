@@ -5,8 +5,12 @@ import asyncio
 
 class DemocracyBot(commands.Bot):
 
+    description = """A democratic discord bot.
+                     Please report bugs and missing features to
+                     https://github.com/NicoWeidmann/discord-DemocracyBot/issues"""
+
     def __init__(self):
-        super().__init__(command_prefix='!', description="A democratic discord bot.")
+        super().__init__(command_prefix='!', description=DemocracyBot.description)
         self.logger = logging.getLogger("DemocracyBot")
 
     @asyncio.coroutine

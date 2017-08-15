@@ -1,7 +1,7 @@
 import logging
 import sys
 from bot import DemocracyBot
-from votingbot import Voting
+from cogs.votingbot import Voting
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("BotRunner")
