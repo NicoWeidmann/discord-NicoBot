@@ -115,7 +115,7 @@ class Voting:
 
     @createVote.error
     @vote.error
-    # @evaluate.error
+    @evaluate.error
     @showVote.error
     @asyncio.coroutine
     def command_error(self, error, context):
@@ -177,7 +177,6 @@ class Voting_Model:
         totalVotes = len(self.votes)
         for i, a, v in sorted([(i, a, list(self.votes.values()).count(i)) for i, a in enumerate(self.answers)],
                               key=lambda tup: -tup[2]):
-            currentVotes = list(self.votes.values()).count(i)
             percentage = v / totalVotes if totalVotes != 0 else 0
             bar_length = int(percentage * 25)
             msg = (msg + a + ":\n" +
