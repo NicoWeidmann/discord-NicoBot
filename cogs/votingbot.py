@@ -175,8 +175,8 @@ class Voting_Model:
         msg = "Hello there. Here is your evaluation on the vote:\n\n[{0}] **{1}**\n\n".format(self.uid, self.question)
 
         totalVotes = len(self.votes)
-        for i, a, v in sorted([(i, a, list(self.votes.values()).count(i)) for i, a in enumerate(self.answers)],
-                              key=lambda tup: -tup[2]):
+        for a, v in sorted([(a, list(self.votes.values()).count(i)) for i, a in enumerate(self.answers)],
+                           key=lambda tup: -tup[1]):
             percentage = v / totalVotes if totalVotes != 0 else 0
             bar_length = int(percentage * 25)
             msg = (msg + a + ":\n" +
