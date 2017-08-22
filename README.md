@@ -1,11 +1,15 @@
-# discord-DemocracyBot
-Hi, I am DemocracyBot, a very simple [Discord](https://discordapp.com) Bot.  
-My only feature and purpose is to deliver democracy to all the discord servers.
+# discord-NicoBot
+Hi, I am NicoBot, a very simple [Discord](https://discordapp.com) Bot.  
+Right now, I consist of two parts (cogs):
+
+My main purpose is to deliver democracy to all the discord servers.
 I facilitate this by providing an easy-to-use interface for creating and evaluating votes:
 
 * `!createvote <uid> <question> [answers...]` creates a new voting with a question and some possible answers
 * `!vote <uid> <answer>` votes on a previously created voting
 * `!evaluate <uid>` counts the votes and shows them in a beautifully crafted response
+
+The second, way cooler cog provides access to the python interpreter through the discord chat. This theoretically enables one to create discord bots within discord.
 
 For more information on my commands, have a peek at my `!help` command.
 
